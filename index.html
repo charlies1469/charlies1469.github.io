@@ -3,15 +3,608 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的个人主页</title>
+    <title>茗心轩 - 承载千年的茶道美学</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f9; text-align: center; padding: 50px; }
-        h1 { color: #333; }
-        p { color: #666; font-size: 18px; }
+        :root {
+            --primary-color: #2c4c38; /* 深茶绿 */
+            --accent-color: #b89765;  /* 琥珀金 */
+            --text-dark: #2b2b2b;
+            --text-light: #f5f7f4;
+            --bg-cream: #faf9f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'Noto Serif SC', serif;
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* --- 导航栏 --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.5s ease;
+            background: transparent;
+        }
+
+        header.scrolled {
+            background: rgba(44, 76, 56, 0.95);
+            padding: 12px 8%;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-light);
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .logo span { color: var(--accent-color); }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li { margin: 0 20px; }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 16px;
+            transition: 0.3s;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-color);
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover::after { width: 100%; }
+        header.scrolled .nav-links a:hover { color: var(--accent-color); }
+
+        .nav-icons {
+            color: var(--text-light);
+            font-size: 20px;
+        }
+
+        .nav-icons i {
+            margin-left: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .nav-icons i:hover { color: var(--accent-color); }
+
+        /* --- 特效全屏Banner --- */
+        .hero {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--text-light);
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            transform: scale(1.1);
+            animation: zoomOut 10s infinite alternate;
+            z-index: -1;
+        }
+
+        @keyframes zoomOut {
+            0% { transform: scale(1.1); }
+            100% { transform: scale(1.0); }
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            letter-spacing: 4px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s forwards 0.5s;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: #e0e0e0;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s forwards 0.8s;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 12px 35px;
+            background: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: 0.4s ease;
+            border: 2px solid transparent;
+            opacity: 0;
+            animation: fadeInUp 1s forwards 1.1s;
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            border-color: var(--text-light);
+            transform: translateY(-3px);
+        }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- 核心卖点 / 品牌故事 --- */
+        .section-padding { padding: 80px 8%; }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+
+        .section-title h2::after {
+            content: '◆';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--accent-color);
+            font-size: 14px;
+        }
+
+        .about-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-img {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .about-img img {
+            width: 100%;
+            height: auto;
+            transition: 0.5s;
+        }
+
+        .about-img:hover img { transform: scale(1.05); }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        /* --- 明星茶品 (特效3D悬浮卡片) --- */
+        .products { background: #f0ede6; }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .product-img {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s;
+        }
+
+        .product-card:hover .product-img img { transform: scale(1.1); }
+
+        .product-info { padding: 25px; text-align: center;}
+
+        .product-tag {
+            background: rgba(44, 76, 56, 0.1);
+            color: var(--primary-color);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .product-info h3 { margin-bottom: 10px; font-size: 1.3rem; }
+        .product-info .price { color: var(--accent-color); font-weight: 600; font-size: 1.2rem; }
+
+        .add-to-cart-btn {
+            margin-top: 15px;
+            padding: 8px 20px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .add-to-cart-btn:hover { background: var(--accent-color); }
+
+        /* --- 数据滚动特效区 --- */
+        .counter-section {
+            background: linear-gradient(rgba(44, 76, 56, 0.9), rgba(44, 76, 56, 0.9)), url('https://images.unsplash.com/photo-1563822249548-9a72b6353cd1?auto=format&fit=crop&w=1920&q=80') center center/cover fixed;
+            color: white;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            text-align: center;
+            gap: 40px;
+        }
+
+        .counter-box i { font-size: 2.5rem; color: var(--accent-color); margin-bottom: 15px; }
+        .counter-box .number { font-size: 3rem; font-weight: 700; margin-bottom: 5px; font-family: 'Poppins'; }
+
+        /* --- 茶道体验预约表单 --- */
+        .booking-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            background: #fafafa;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: var(--primary-color);
+            background: white;
+        }
+
+        /* --- 页脚 --- */
+        footer {
+            background: #1e3327;
+            color: #b5c4ba;
+            padding: 60px 8% 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h4 {
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 12px; }
+        .footer-col ul li a { color: #b5c4ba; text-decoration: none; transition: 0.3s; }
+        .footer-col ul li a:hover { color: var(--accent-color); padding-left: 5px; }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .nav-links, .nav-icons { display: none; } /* 移动端简化 */
+            .about-container { grid-template-columns: 1fr; }
+            .form-grid { grid-template-columns: 1fr; }
+            .hero-content h1 { font-size: 2.5rem; }
+        }
     </style>
 </head>
 <body>
-    <h1>欢迎来到我的专属网站！</h1>
-    <p>这是利用 GitHub Pages 和 eu.org 域名搭建的个人空间。</p>
+
+    <header id="header">
+        <a href="#" class="logo">茗心<span>轩</span></a>
+        <ul class="nav-links">
+            <li><a href="#home">首页</a></li>
+            <li><a href="#about">品牌故事</a></li>
+            <li><a href="#products">明星茶品</a></li>
+            <li><a href="#experience">茶道体验</a></li>
+            <li><a href="#contact">联系我们</a></li>
+        </ul>
+        <div class="nav-icons">
+            <i class="fas fa-search"></i>
+            <i class="fas fa-shopping-bag"></i>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <h1>品一壶清茗 · 悟半生清欢</h1>
+            <p>甄选北纬27°高山生态茶园，非遗大师历经18道工序匠心手作</p>
+            <a href="#products" class="btn-primary">探索春茶新品</a>
+        </div>
+    </section>
+
+    <section id="about" class="section-padding">
+        <div class="section-title">
+            <h2>百年匠心 始于自然</h2>
+        </div>
+        <div class="about-container">
+            <div class="about-img">
+                <img src="https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80" alt="采茶图">
+            </div>
+            <div class="about-text">
+                <h3>来自云雾缭绕之处的馈赠</h3>
+                <p>茗心轩茶园基地坐落于海拔1200米的高山之上，那里常年云雾缭绕，昼夜温差大，土壤肥沃富硒。正是这样的自然生态，孕育出了氨基酸含量极高的鲜嫩茶芽。</p>
+                <p>我们坚持采用传统的纯手工采摘模式，只选清晨带露水的“一心一叶”。结合现代无尘智能冷链技术，为您锁住最初的那一抹大自然春天的原香。</p>
+                <a href="#experience" class="btn-primary" style="margin-top: 15px;">了解制茶工艺</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="products" class="section-padding products">
+        <div class="section-title">
+            <h2>核心明星茶品</h2>
+        </div>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&w=500&q=80" alt="西湖龙井">
+                </div>
+                <div class="product-info">
+                    <span class="product-tag">核心产区</span>
+                    <h3>明前明后·西湖龙井</h3>
+                    <p class="price">￥688 / 250g</p>
+                    <button class="add-to-cart-btn"><i class="fas fa-shopping-cart"></i> 加入购物车</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="https://images.unsplash.com/photo-1563822249548-9a72b6353cd1?auto=format&fit=crop&w=500&q=80" alt="高山乌龙">
+                </div>
+                <div class="product-info">
+                    <span class="product-tag">非遗手作</span>
+                    <h3>大红袍·岩骨花香</h3>
+                    <p class="price">￥880 / 200g</p>
+                    <button class="add-to-cart-btn"><i class="fas fa-shopping-cart"></i> 加入购物车</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=500&q=80" alt="陈年普洱">
+                </div>
+                <div class="product-info">
+                    <span class="product-tag">十年干仓</span>
+                    <h3>布朗山·古树普洱熟茶</h3>
+                    <p class="price">￥1280 / 饼</p>
+                    <button class="add-to-cart-btn"><i class="fas fa-shopping-cart"></i> 加入购物车</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding counter-section">
+        <div class="counter-box">
+            <i class="fas fa-map-marked-alt"></i>
+            <div class="number" data-target="5000">0</div>
+            <p>亩 高山专属生态茶园</p>
+        </div>
+        <div class="counter-box">
+            <i class="fas fa-award"></i>
+            <div class="number" data-target="24">0</div>
+            <p>项 国际茶评金奖荣誉</p>
+        </div>
+        <div class="counter-box">
+            <i class="fas fa-users"></i>
+            <div class="number" data-target="150000">0</div>
+            <p>位 忠实茶友的选择</p>
+        </div>
+    </section>
+
+    <section id="experience" class="section-padding">
+        <div class="section-title">
+            <h2>线下茶道体验预约</h2>
+        </div>
+        <div class="booking-container">
+            <form id="teaForm" onsubmit="submitForm(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <input type="text" placeholder="您的姓名" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" placeholder="手机号码" required>
+                    </div>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <select required>
+                            <option value="">选择体验主题</option>
+                            <option value="1">宋代点茶文化体验</option>
+                            <option value="2">功夫茶与香道雅集</option>
+                            <option value="3">新茶盲品鉴赏会</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="date" required>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <textarea rows="4" placeholder="备注需求（如人数、忌口等）"></textarea>
+                </div>
+                <div style="text-align: center;">
+                    <button type="submit" class="btn-primary" style="border:none; cursor: pointer;">提交预约申请</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>茗心轩茶业</h4>
+                <p>以茶会友，传承东方生活美学。致力于让每一位爱茶人都能喝到最纯正的原产地好茶。</p>
+            </div>
+            <div class="footer-col">
+                <h4>快捷导航</h4>
+                <ul>
+                    <li><a href="#about">品牌故事</a></li>
+                    <li><a href="#products">明星产品</a></li>
+                    <li><a href="#experience">茶道预定</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>联系我们</h4>
+                <ul>
+                    <li><i class="fas fa-phone"></i> 400-888-9999</li>
+                    <li><i class="fas fa-envelope"></i> service@mingxinxuan.com</li>
+                    <li><i class="fas fa-map-marker-alt"></i> 杭州市西湖区龙井村茶园大道88号</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 茗心轩茶业有限公司 版权所有 | 浙ICP备12345678号</p>
+        </div>
+    </footer>
+
+    <script>
+        // 1. 导航栏滚动变色特效
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // 2. 动态数字递增滚动特效
+        const counters = document.querySelectorAll('.number');
+        const speed = 200; 
+
+        const startCounters = () => {
+            counters.forEach(counter => {
+                const updateCount = () => {
+                    const target = +counter.getAttribute('data-target');
+                    const count = +counter.innerText;
+                    const inc = target / speed;
+
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + inc);
+                        setTimeout(updateCount, 1);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                updateCount();
+            });
+        };
+
+        // 使用 Intersection Observer 监测滚动到该区域时才触发数字滚动
+        const observer = new IntersectionObserver((entries) => {
+            if(entries[0].isIntersecting) {
+                startCounters();
+                observer.disconnect(); // 只触发一次
+            }
+        }, { threshold: 0.5 });
+
+        observer.observe(document.querySelector('.counter-section'));
+
+        // 3. 预约表单提交交互特效
+        function submitForm(event) {
+            event.preventDefault();
+            alert('恭喜！您的茶道体验预约已提交成功，我们的茶艺顾问将在24小时内与您电话确认。');
+            document.getElementById('teaForm').reset();
+        }
+    </script>
 </body>
 </html>
